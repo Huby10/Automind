@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AutoMind – Premium Vehicle Service</title>
+  <style>
+    :root{
+      --bg:#050813;
+      --panel: rgba(255,255,255,.05);
+      --panel2: rgba(0,0,0,.18);
+      --text:#eaf2ff;
+      --muted:#a9b7d6;
+      --line: rgba(255,255,255,.12);
+
+      /* Futuristic blue / neon AI */
+      --neon:#00e7ff;
+      --blue:#4da3ff;
+      --violet:#7c5cff;
+
+      --shadow: 0 18px 55px rgba(0,0,0,.55);
+      --radius: 20px;
+      --max: 1120px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:var(--text);
+      line-height:1.55;
+      background:
+        radial-gradient(1000px 500px at 18% 12%, rgba(0,231,255,.18), transparent 60%),
+        radial-gradient(900px 500px at 85% 18%, rgba(77,163,255,.22), transparent 60%),
+        radial-gradient(900px 650px at 50% 115%, rgba(124,92,255,.12), transparent 55%),
+        linear-gradient(180deg, #040615, #050813 40%, #040615);
+      overflow-x:hidden;
+    }
+    a{color:inherit; text-decoration:none}
+
+    .wrap{max-width:var(--max); margin:0 auto; padding:0 18px}
+
+    /* Header */
+    header{
+      position:sticky; top:0; z-index:10;
+      backdrop-filter: blur(10px);
+      background: rgba(5,8,19,.70);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 0; gap:14px;
+    }
+    .brand{display:flex; align-items:center; gap:12px}
+    .brand img{
+      width:44px; height:44px; border-radius:14px;
+      border: 1px solid rgba(0,231,255,.22);
+      box-shadow: 0 12px 30px rgba(0,0,0,.45);
+      background: #081027;
+    }
+    .brand b{letter-spacing:.2px}
+    .brand small{color:var(--muted)}
+    nav ul{list-style:none; display:flex; gap:14px; margin:0; padding:0; color:var(--muted)}
+    nav li a{padding:8px 10px; border-radius:12px}
+    nav li a:hover{background: rgba(255,255,255,.06); color:var(--text)}
+
+    /* Buttons */
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:10px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      font-weight:650;
+      cursor:pointer;
+      transition:.18s transform, .18s background, .18s border-color, .18s filter;
+      user-select:none;
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.09); border-color: rgba(255,255,255,.18)}
+    .btn.primary{
+      border:none;
+      background: linear-gradient(135deg, rgba(0,231,255,.95), rgba(77,163,255,.95), rgba(124,92,255,.95));
+      box-shadow: 0 16px 55px rgba(0,231,255,.15);
+    }
+    .btn.primary:hover{filter: brightness(1.05)}
+    .btn.ghost{
+      background: rgba(0,231,255,.07);
+      border:1px solid rgba(0,231,255,.22);
+    }
+
+    /* Hero */
+    .hero{padding: 56px 0 24px}
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap:18px;
+      align-items:stretch;
+    }
+    .panel{
+      border:1px solid var(--line);
+      background: linear-gradient(180deg, var(--panel), rgba(255,255,255,.03));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    /* cyber grid overlay */
+    .panel::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(600px 220px at 30% 10%, rgba(0,231,255,.14), transparent 60%),
+        radial-gradient(500px 240px at 75% 20%, rgba(77,163,255,.12), transparent 65%),
+        linear-gradient(transparent 0, transparent 96%, rgba(0,231,255,.06) 100%),
+        repeating-linear-gradient(90deg, rgba(0,231,255,.05) 0 1px, transparent 1px 42px);
+      pointer-events:none;
+      mix-blend-mode: screen;
+      opacity:.85;
+    }
+    .heroCard{padding: 26px 24px 22px}
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      font-size:12px; color:var(--muted);
+      padding:6px 10px;
+      border-radius:999px;
+      background: rgba(0,231,255,.07);
+      border:1px solid rgba(0,231,255,.20);
+      position:relative;
+    }
+    h1{
+      margin: 14px 0 8px;
+      font-size: clamp(30px, 3.4vw, 46px);
+      line-height: 1.12;
+      letter-spacing:-.4px;
+      position:relative;
+    }
+    .sub{
+      margin:0 0 12px;
+      color: rgba(0,231,255,.95);
+      font-weight:700;
+      letter-spacing:.6px;
+      text-transform: uppercase;
+      font-size: 12px;
+      position:relative;
+    }
+    .lead{color:var(--muted); font-size: 15.5px; max-width: 62ch; position:relative}
+    .heroActions{display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; position:relative}
+    .chips{margin-top:18px; display:flex; gap:10px; flex-wrap:wrap; position:relative}
+    .chip{
+      display:inline-flex; gap:8px; align-items:center;
+      padding:8px 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.14);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .logoShowcase{
+      min-height: 340px;
+      display:flex; align-items:center; justify-content:center;
+      padding: 22px;
+    }
+    .logoFrame{
+      width: min(320px, 86%);
+      aspect-ratio: 1/1;
+      border-radius: 28px;
+      border: 1px solid rgba(0,231,255,.28);
+      background: rgba(0,0,0,.18);
+      box-shadow: 0 25px 75px rgba(0,0,0,.60);
+      overflow:hidden;
+      position:relative;
+    }
+    .logoFrame::after{
+      content:"";
+      position:absolute; inset:-2px;
+      background: conic-gradient(from 180deg, rgba(0,231,255,.0), rgba(0,231,255,.22), rgba(124,92,255,.18), rgba(0,231,255,.0));
+      filter: blur(12px);
+      opacity:.8;
+      pointer-events:none;
+    }
+    .logoFrame img{width:100%; height:100%; object-fit:cover; display:block; position:relative; z-index:1}
+
+    /* Sections */
+    section{padding: 22px 0}
+    .h2{
+      margin:0 0 12px;
+      font-size: 22px;
+      letter-spacing:-.2px;
+    }
+    .grid3{display:grid; grid-template-columns: repeat(3, 1fr); gap:14px}
+    .card{padding:16px 16px 14px}
+    .card h3{margin:0 0 6px; font-size: 16px; position:relative}
+    .card p{margin:0; color:var(--muted); font-size: 14px; position:relative}
+    .kpi{
+      display:flex; gap:10px; flex-wrap:wrap; margin-top: 10px;
+      color:var(--muted); font-size:13px; position:relative;
+    }
+    .kpi span{
+      padding:8px 10px;
+      border-radius: 14px;
+      border:1px solid rgba(0,231,255,.18);
+      background: rgba(0,231,255,.06);
+    }
+
+    /* Pricing */
+    .pricing{display:grid; grid-template-columns: 1fr 1fr 1fr; gap:14px}
+    .tier{padding:18px 16px}
+    .tier .name{font-weight:800; font-size:16px; letter-spacing:.2px; position:relative}
+    .tier .tag{color:var(--muted); font-size:12px; margin-top:4px; position:relative}
+    .tier .price{font-size:30px; font-weight:900; margin:10px 0 6px; position:relative}
+    .tier .price small{font-size:12px; color:var(--muted); font-weight:700}
+    .tier ul{margin:10px 0 0; padding-left:18px; color:var(--muted); font-size:14px; position:relative}
+    .tier li{margin:6px 0}
+    .tier .btn{margin-top:12px; width:100%}
+
+    .tier.normal{border-color: rgba(255,255,255,.12)}
+    .tier.gold{border-color: rgba(0,231,255,.26)}
+    .tier.premium{
+      border-color: rgba(0,231,255,.35);
+      box-shadow: 0 18px 70px rgba(0,231,255,.12);
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(0,231,255,.22);
+      background: rgba(0,231,255,.07);
+      color: rgba(0,231,255,.95);
+      font-size:12px;
+      font-weight:800;
+      position:relative;
+      margin-top:10px;
+    }
+
+    /* Contact */
+    .contact{padding:18px 16px}
+    input, textarea{
+      width:100%;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.20);
+      color:var(--text);
+      outline:none;
+    }
+    input:focus, textarea:focus{
+      border-color: rgba(0,231,255,.40);
+      box-shadow: 0 0 0 4px rgba(0,231,255,.10);
+    }
+
+    footer{
+      padding: 26px 0 42px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 920px){
+      .heroGrid{grid-template-columns:1fr}
+      .logoShowcase{min-height: 260px}
+      nav ul{display:none}
+      .grid3{grid-template-columns:1fr}
+      .pricing{grid-template-columns:1fr}
+    }
+
+    @media (max-width: 600px){
+      .wrap{padding:0 12px}
+      .hero{padding: 40px 0 20px}
+      .heroCard{padding: 20px 18px 18px}
+      h1{font-size: clamp(24px, 5vw, 36px)}
+      .lead{font-size: 14px}
+      .heroActions{flex-direction:column; align-items:stretch}
+      .heroActions .btn{width:100%}
+      .chips{flex-direction:column; align-items:flex-start}
+      .kpi{flex-direction:column}
+      .tier{padding:16px 14px}
+      .contact{padding:16px 14px}
+      .contact form{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="wrap">
+      <div class="nav">
+        <a class="brand" href="#top" aria-label="AutoMind">
+          <img src="https://image2url.com/r2/default/images/1769971206428-80902cdc-5dff-4287-9e70-123f0ec50a0a.png" alt="AutoMind Logo" />
+          <div>
+            <b>AutoMind</b><br />
+            <small>Premium Vehicle Service</small>
+          </div>
+        </a>
+
+        <nav aria-label="Main Navigation">
+          <ul>
+            <li><a href="#features">Technology</a></li>
+            <li><a href="#tiers">Plans</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+
+        <div style="display:flex; gap:10px; align-items:center;">
+          <a class="btn ghost" href="#tiers">View Plans</a>
+          <a class="btn primary" href="#contact">Premium Demo</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <div class="wrap hero">
+      <div class="heroGrid">
+        <div class="panel heroCard">
+          <div class="badge">🚕 AI Dispatch • 📍 Live ETA • 🛡️ Safety-Layer • ⚡ Priority Routing</div>
+          <div class="sub">AutoMind • Premium Taxi AI</div>
+          <h1>Cyber-Tech Mobility that gets you faster to your destination.</h1>
+          <p class="lead">
+            AutoMind combines AI-powered dispatching, real-time traffic, and safety checks
+            into a premium taxi service: faster, more reliable, and with maximum control.
+          </p>
+
+          <div class="heroActions">
+            <a class="btn primary" href="#tiers">Compare Plans</a>
+            <a class="btn" href="#features">How it works</a>
+          </div>
+
+          <div class="chips" aria-label="Highlights">
+            <span class="chip">🧠 Smart Matching</span>
+            <span class="chip">📡 Live-Tracking</span>
+            <span class="chip">🛰️ Predictive ETA</span>
+            <span class="chip">🔐 Verifizierung</span>
+          </div>
+
+          <div class="kpi">
+            <span>⏱️ Schnellere Zuteilung</span>
+            <span>📉 Weniger Wartezeit</span>
+            <span>🧭 Optimierte Routen</span>
+          </div>
+        </div>
+
+        <div class="panel logoShowcase" aria-label="Logo Preview">
+          <div class="logoFrame">
+            <img src="https://image2url.com/r2/default/images/1769971206428-80902cdc-5dff-4287-9e70-123f0ec50a0a.png" alt="AutoMind App Icon large" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section id="features">
+      <div class="wrap">
+        <h2 class="h2">Technology Stack (explained briefly)</h2>
+        <div class="grid3">
+          <div class="panel card">
+            <h3>AI Dispatch Core</h3>
+            <p>Matching based on distance, traffic, driver quality, utilization, and service level.</p>
+          </div>
+          <div class="panel card">
+            <h3>Neon-ETA Engine</h3>
+            <p>Predictive model + live traffic for more stable arrival times (ETA).</p>
+          </div>
+          <div class="panel card">
+            <h3>Safety & Trust</h3>
+            <p>Verification, ride PIN, emergency button, live route sharing, and risk checks.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tiers">
+      <div class="wrap">
+        <h2 class="h2">Tiers: Normal • Gold • Premium</h2>
+        <div class="pricing">
+          <!-- NORMAL -->
+          <div class="panel tier normal">
+            <div class="name">Normal</div>
+            <div class="tag">Free • Entry to AutoMind</div>
+            <div class="price">0 € <small>/ Month</small></div>
+            <ul>
+              <li>Standard booking (next available driver)</li>
+              <li>Basic ETA + live tracking</li>
+              <li>Cashless payment (card/wallet)</li>
+              <li>Standard support (email)</li>
+              <li>Basic safety: driver profile + license plate</li>
+            </ul>
+            <a class="btn" href="#contact">Start</a>
+          </div>
+
+          <!-- GOLD -->
+          <div class="panel tier gold">
+            <div class="name">Gold</div>
+            <div class="tag">For Frequent Riders • Priority Experience</div>
+            <div class="price">19 € <small>/ Month</small></div>
+            <div class="pill">⭐ Priority Routing</div>
+            <ul>
+              <li>Prioritized allocation (faster dispatch)</li>
+              <li>"Quiet Ride" / preferences (e.g., climate, music off)</li>
+              <li>Ride PIN (extra security when boarding)</li>
+              <li>Extended ETA (better forecast in traffic)</li>
+              <li>Support: Chat (weekdays)</li>
+              <li>Digital receipts & trip export</li>
+            </ul>
+            <a class="btn ghost" href="#contact">Choose Gold</a>
+          </div>
+
+          <!-- PREMIUM -->
+          <div class="panel tier premium">
+            <div class="name">Premium</div>
+            <div class="tag">Maximum Quality • Premium Fleet + Concierge</div>
+            <div class="price">49 € <small>/ Month</small></div>
+            <div class="pill">⚡ Elite Dispatch + Concierge</div>
+            <ul>
+              <li>Elite matching: top drivers + premium vehicle class</li>
+              <li>Highest priority (peak times / events)</li>
+              <li>Safety Plus: live route sharing + emergency assistance</li>
+              <li>"Scheduled Rides" (pre-book) with stability lock</li>
+              <li>Concierge support (24/7) + preferred complaint handling</li>
+              <li>Business profile (invoices, cost centers, team rides)</li>
+            </ul>
+            <a class="btn primary" href="#contact">Premium Demo</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="wrap">
+        <div class="panel contact">
+          <h2 class="h2" style="margin-bottom:8px;">Contact / Demo</h2>
+          <p style="margin:0 0 14px; color:var(--muted);">
+            Enter your real contact details here (or replace the form with email/WhatsApp).
+          </p>
+
+          <form onsubmit="event.preventDefault(); alert('Demo: Request sent ✅');">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+              <input required placeholder="Name" />
+              <input required type="email" placeholder="Email" />
+            </div>
+            <textarea required rows="4" placeholder="What do you need AutoMind for? (Private, Business, Fleet, Events…)"></textarea>
+            <button class="btn primary" type="submit" style="margin-top:10px;">Send Request</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      © <span id="y"></span> AutoMind • Premium Vehicle Service • Imprint • Privacy Policy • Erstellt von Huby
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
